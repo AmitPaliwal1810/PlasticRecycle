@@ -130,7 +130,32 @@ const Home = () => {
       </MobileOuterContainer>
     );
   }
-  return <MobileOuterContainer></MobileOuterContainer>;
+  return (
+    <OuterContainer>
+      <Box
+        className={"Header"}
+        sx={{
+          backgroundImage: `url("/assets/homeHeader.png")`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <Stack
+          className="HeaderContainer"
+          direction={"column"}
+          alignItems={"flex-start"}
+          justifyContent={"center"}
+        >
+          <Typography variant="h4" className="HeaderText">
+            PLASTIC FOR CHANGE
+          </Typography>
+          <Typography variant="h6" className="HeaderText2">
+            Changing Lives Through Recycling
+          </Typography>
+        </Stack>
+      </Box>
+    </OuterContainer>
+  );
 };
 
 export default Home;
@@ -205,6 +230,39 @@ const MobileOuterContainer = styled(Box)(({ theme }) => ({
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       marginTop: "20px",
+    },
+  },
+}));
+
+const OuterContainer = styled(Box)(({ theme }) => ({
+  height: "100%",
+  width: "100%",
+  ".Header": {
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
+    dispaly: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    ".HeaderContainer": {
+      minHeight: "400px",
+      position: "absolute",
+      bottom: "0px",
+      padding: "8px 12px",
+      ".HeaderText": {
+        fontSize: "24px",
+        fontWeight: 600,
+        textAlign: "center",
+        fontFamily: "Montserrat",
+        letterSpacing: "0.06rem",
+      },
+      ".HeaderText2": {
+        fontSize: "18px",
+        fontWeight: 300,
+        fontFamily: "Montserrat",
+        letterSpacing: "0.06rem",
+      },
     },
   },
 }));

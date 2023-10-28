@@ -12,6 +12,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MailIcon from "@mui/icons-material/Mail";
 import Footer from "./src/Components/footer";
+import axios from "axios";
 
 const validationSchema = yup.object({
   email: yup.string().email().required("Email is required"),
@@ -81,8 +82,13 @@ const ContactUs = () => {
       message: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(`http://localhost:5000/`, { ...values });
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
 
@@ -93,47 +99,67 @@ const ContactUs = () => {
         <Box className="mobile_contact_outer_container">
           <Typography className="upperText">Get In Touch</Typography>
           <form onSubmit={formik.handleSubmit}>
-            {formContent.map((val: any, index: number) => {
-              if (val.label === "Message") {
-                return (
-                  <TextField
-                    className="fields"
-                    fullWidth
-                    key={index}
-                    id={val.name}
-                    name={val.name}
-                    label={val.label}
-                    value={formik.values[val.name]}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched[val.name] &&
-                      Boolean(formik.errors[val.name])
-                    }
-                    helperText={
-                      formik.touched[val.name] && formik.errors[val.name]
-                    }
-                  />
-                );
+            <TextField
+              className="fields"
+              fullWidth
+              name={"name"}
+              label={"Name"}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+            <TextField
+              className="fields"
+              fullWidth
+              name={"email"}
+              label={"Email"}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+            <TextField
+              className="fields"
+              fullWidth
+              name={"phoneNumber"}
+              label={"Phone Number"}
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
               }
-              return (
-                <TextField
-                  className="fields"
-                  fullWidth
-                  key={index}
-                  id={val.name}
-                  name={val.name}
-                  label={val.label}
-                  value={formik.values[val.name]}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched[val.name] && Boolean(formik.errors[val.name])
-                  }
-                  helperText={
-                    formik.touched[val.name] && formik.errors[val.name]
-                  }
-                />
-              );
-            })}
+              helperText={
+                formik.touched.phoneNumber && formik.errors.phoneNumber
+              }
+            />
+            <TextField
+              className="fields"
+              fullWidth
+              name={"organization"}
+              label={"Organization Name"}
+              value={formik.values.organization}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.organization &&
+                Boolean(formik.errors.organization)
+              }
+              helperText={
+                formik.touched.organization && formik.errors.organization
+              }
+            />
+            <TextField
+              className="fields"
+              fullWidth
+              multiline={true}
+              minRows={4}
+              name={"message"}
+              label={"Message"}
+              value={formik.values.message}
+              onChange={formik.handleChange}
+              error={formik.touched.message && Boolean(formik.errors.message)}
+              helperText={formik.touched.message && formik.errors.message}
+            />
             <Button color="success" variant="contained" fullWidth type="submit">
               Submit
             </Button>

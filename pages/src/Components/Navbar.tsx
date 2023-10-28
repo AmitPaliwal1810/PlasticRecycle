@@ -16,6 +16,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NavbarData = {
   logo: "",
@@ -37,6 +38,7 @@ const NavbarData = {
 const Navbar = () => {
   const isMobile = useIsMobile();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleDrawer = useCallback(() => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -96,7 +98,9 @@ const Navbar = () => {
                 style={{
                   background: "#5e9a2f",
                 }}
-                href={"/contact-us"}
+                onClick={() => {
+                  router.push("/contact-us");
+                }}
               >
                 Contact Us
               </Button>
@@ -107,7 +111,36 @@ const Navbar = () => {
     );
   }
 
-  return <div></div>;
+  return (
+    <NavbarStyle
+      direction={"row"}
+      justifyContent={"space-between"}
+      alignItems={"center"}
+    >
+      <Box className="logo">
+        <img src="/assets/logo.png" alt="logo" height={"100%"} width={"100%"} />
+      </Box>
+      <Stack direction={"row"} justifyContent={"center"} alignItems={"center"}>
+        {NavbarData.rightList.map((val: any, index: any) => {
+          return (
+            <Stack
+              key={index}
+              direction={"row"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              {val.icon}
+              <Link href={val.link}>
+                <ListItemButton className="ListButtonText">
+                  {val.label}
+                </ListItemButton>
+              </Link>
+            </Stack>
+          );
+        })}
+      </Stack>
+    </NavbarStyle>
+  );
 };
 
 export default Navbar;
@@ -149,5 +182,17 @@ const CustomeDrawer = styled(Drawer)(({ theme }) => ({
     color: "#fff",
     fontSize: "18px",
     fontFamily: "Montserrat",
+  },
+}));
+
+const NavbarStyle = styled(Stack)(({ theme }) => ({
+  background: "#305C0E",
+  padding: "18px",
+  ".logo": {
+    height: "30px",
+    width: "60px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
